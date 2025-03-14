@@ -1,0 +1,137 @@
+.about-container {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    padding-top: 80px; 
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.storm-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.story-content {
+    max-width: 800px;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out;
+    position: relative;
+}
+
+.story-content h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ff4c4c;
+}
+
+.story-content p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #fff;
+}
+
+.storm-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.story-content .storm-background img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    margin-top: 20px;
+}
+
+.contact-button {
+    background-color: #ff4c4c;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 20px;
+}
+
+.contact-button:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding-top: 100px;
+    }
+    .story-content {
+        max-width: 90%;
+        padding: 20px;
+    }
+    .story-content h1 {
+        font-size: 24px;
+    }
+    .story-content p {
+        font-size: 16px;
+    }
+    .storm-image {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-container {
+        padding-top: 100px;
+    }
+    .story-content {
+        max-width: 95%;
+        padding: 15px;
+    }
+    .story-content h1 {
+        font-size: 20px;
+    }
+    .story-content p {
+        font-size: 14px;
+    }
+    .contact-button {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+}

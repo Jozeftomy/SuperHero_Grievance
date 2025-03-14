@@ -1,7 +1,7 @@
 import './App.css';
-import About from './components/About';
-import Grievance from './components/Grievance';
-import Home from './components/Home';
+import About from './pages/About';
+import Grievance from './pages/Grievance';
+import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
