@@ -15,7 +15,7 @@ const Navbar = () => {
     const handleResize = () => {
       setIsMobile(mediaQuery.matches);
       if (!mediaQuery.matches) {
-        setIsOpen(false); // Close drawer when switching to desktop mode
+        setIsOpen(false); 
       }
     };
     

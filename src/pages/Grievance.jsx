@@ -1,20 +1,24 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
+import LoadingScreen from "../components/ScreenLoader"; 
 import "./Grievance.css";
 
 const Grievance = () => {
   const email = useRef();
   const grievance = useRef();
+  const [loading, setLoading] = useState(false); 
 
   function submit() {
     const emailValue = email.current.value.trim();
     const messageValue = grievance.current.value.trim();
 
     if (!emailValue || !messageValue) {
-      alert("⚠️ Please fill in all fields.");
+      alert("Please fill in all fields.");
       return;
     }
+
+    setLoading(true); 
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -34,23 +38,26 @@ const Grievance = () => {
     fetch("https://superhero-backend-460q.onrender.com/grievance/add", requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        setLoading(false);
         if (result.data) {
-          alert("✅ Grievance Registered Successfully!");
+          alert("Grievance Registered Successfully!");
           email.current.value = "";
           grievance.current.value = "";
         } else {
-          alert("❌ Grievance Registration Failed.");
+          alert("Grievance Registration Failed.");
         }
       })
       .catch((error) => {
+        setLoading(false); 
         console.error("Submission Error:", error);
-        alert("❌ Server Error. Please try again later.");
+        alert("Server Error. Please try again later.");
       });
   }
 
   return (
     <>
       <Navbar />
+      {loading && <LoadingScreen />} 
       <motion.div 
         className="grievance-container"
         initial={{ opacity: 0 }}
@@ -93,8 +100,9 @@ const Grievance = () => {
             whileHover={{ scale: 1.1, backgroundColor: "#d43939" }}
             whileTap={{ scale: 0.95 }}
             className="submit-button"
+            disabled={loading} 
           >
-            Submit Grievance
+            {loading ? "Submitting..." : "Submit Grievance"}
           </motion.button>
         </motion.div>
       </motion.div>
