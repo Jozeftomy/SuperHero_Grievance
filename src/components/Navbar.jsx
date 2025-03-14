@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiMenu } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiMenu, FiChevronLeft } from 'react-icons/fi';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -26,18 +26,6 @@ const Navbar = () => {
       initial={{ y: -50, opacity: 0 }} 
       animate={{ y: 0, opacity: 1 }} 
       transition={{ duration: 0.5 }}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        padding: '15px 20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 100
-      }}
     >
       {isMobile ? (
         <FiMenu className="menu-toggle" size={24} color="white" onClick={toggleDrawer} />
@@ -49,12 +37,52 @@ const Navbar = () => {
           whileHover={{ scale: 1.1 }}
         />
       )}
-      
-      <div className={`nav-links ${isMobile && !isOpen ? 'hidden' : ''}`}>
-        <Link to="/" onClick={toggleDrawer}>Home</Link>
-        <Link to="/about" onClick={toggleDrawer}>About Us</Link>
-        <Link to="/grievance" onClick={toggleDrawer}>Grievance</Link>
-      </div>
+
+      {/* Mobile Side Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Overlay Background */}
+            <motion.div 
+              className="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={toggleDrawer}
+            />
+
+            <motion.div 
+              className="mobile-menu"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Drawer Header with Back Button */}
+              <div className="drawer-header">
+                <FiChevronLeft size={24} color="white" onClick={toggleDrawer} />
+                <span>Menu</span>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="nav-links vertical-menu">
+                <Link to="/" onClick={toggleDrawer}>Home</Link>
+                <Link to="/about" onClick={toggleDrawer}>About Us</Link>
+                <Link to="/grievance" onClick={toggleDrawer}>Grievance</Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Navigation */}
+      {!isMobile && (
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/about">About Us</Link>
+          <Link to="/grievance">Grievance</Link>
+        </div>
+      )}
     </motion.nav>
   );
 };
