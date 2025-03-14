@@ -31,7 +31,7 @@ const Grievance = () => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:4000/grievance/add", requestOptions)
+    fetch("https://superhero-backend-460q.onrender.com/grievance/add", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.data) {
