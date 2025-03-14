@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiChevronLeft } from 'react-icons/fi';
+import logo from '../assets/logo.png';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -9,11 +10,17 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(mediaQuery.matches);
+      if (!mediaQuery.matches) {
+        setIsOpen(false); // Close drawer when switching to desktop mode
+      }
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    
+    mediaQuery.addEventListener('change', handleResize);
+    return () => mediaQuery.removeEventListener('change', handleResize);
   }, []);
 
   const toggleDrawer = () => {
@@ -28,21 +35,25 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
     >
       {isMobile ? (
-        <FiMenu className="menu-toggle" size={24} color="white" onClick={toggleDrawer} />
+        <FiMenu 
+          className="menu-toggle" 
+          size={24} 
+          color="white" 
+          onClick={toggleDrawer} 
+          aria-label="Open Menu"
+        />
       ) : (
         <motion.img 
-          src={require('../assets/logo.png')} 
+          src={logo} 
           alt="Logo" 
           className="logo" 
           whileHover={{ scale: 1.1 }}
         />
       )}
 
-      {/* Mobile Side Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Overlay Background */}
             <motion.div 
               className="overlay"
               initial={{ opacity: 0 }}
@@ -58,13 +69,16 @@ const Navbar = () => {
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3 }}
             >
-              {/* Drawer Header with Back Button */}
               <div className="drawer-header">
-                <FiChevronLeft size={24} color="white" onClick={toggleDrawer} />
+                <FiChevronLeft 
+                  size={24} 
+                  color="white" 
+                  onClick={toggleDrawer} 
+                  aria-label="Close Menu"
+                />
                 <span>Menu</span>
               </div>
 
-              {/* Navigation Links */}
               <div className="nav-links vertical-menu">
                 <Link to="/" onClick={toggleDrawer}>Home</Link>
                 <Link to="/about" onClick={toggleDrawer}>About Us</Link>
@@ -75,7 +89,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Desktop Navigation */}
       {!isMobile && (
         <div className="nav-links">
           <Link to="/">Home</Link>
